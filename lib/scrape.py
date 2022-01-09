@@ -1,5 +1,5 @@
 from bs4 import BeautifulSoup
-from utils.user_agent import user_agents
+from utils.user_agent import get_random_user_agent
 import requests
 import random
 
@@ -11,7 +11,7 @@ NUMBERS = {"one": 1, "two": 2, "three": 3, "four": 4, "five": 5}
 def get_soup(path):
     response = requests.get(
         f"{BASE_URL}/{path}",
-        headers={"User-Agent": random.choice(user_agents)},
+        headers={"User-Agent": get_random_user_agent()},
     )
     html = response.content
     soup = BeautifulSoup(html, "html.parser")
