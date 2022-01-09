@@ -1,0 +1,11 @@
+### Books by page
+GET http://localhost:8000/api/page/2/ HTTP/1.1
+Accept: application/json
+
+### Books by category and page
+GET http://localhost:8000/api/travel_2/page/1/ HTTP/1.1
+Accept: application/json
+
+### Get single book by slug
+GET http://localhost:8000/api/book/a-light-in-the-attic_1000 HTTP/1.1
+Accept: application/json

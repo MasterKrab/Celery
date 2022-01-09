@@ -1,0 +1,12 @@
+{
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development node build.js",
+    "build": "cross-env NODE_ENV=production node build.js"
+  },
+  "devDependencies": {
+    "@q42/floating-focus-a11y": "^1.3.3",
+    "chokidar": "^1.7.0",
+    "cross-env": "^7.0.3",
+    "esbuild": "^0.14.10"
+  }
+}

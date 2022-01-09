@@ -1,0 +1,1 @@
+(()=>{var n=document.getElementById("books"),c=t=>{let e=t.target.closest(".book");!e||(window.location.href=e.getAttribute("data-url"))},o=t=>{t.target.parentElement.parentElement.classList.toggle("book__content--show")};n.addEventListener("click",c);n.addEventListener("focusin",o);n.addEventListener("focusout",o);})();

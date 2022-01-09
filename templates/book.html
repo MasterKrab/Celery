@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}{{ book.title }}{% endblock %}
+
+{% block content %}
+    <article class="book-info">
+        <img class="book-info__image" src="{{ book.thumbnail }}" alt="{{ book.title }}"/>
+
+        <div>
+            <h1 class="book-info__title">{{ book.title }}</h1>
+
+            <div class="book-info__details">
+                <p class="rating rating--left" aria-label="{{ book.starts }} stars">
+                    {% for i in range(5) %}
+                        <img class="rating__star"
+                             src="{{ url_for("static", path="/assets/icons/star.svg") }}" alt="Star"/>
+                    {% endfor %}
+                </p>
+
+                <p>{{ book.category }}</p>
+                {% if book.stock > 0 %}
+                    <p class="stock">{{ book.stock }} available</p>
+                {% else %}
+                    <p>No stock</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="information">
+            {% if book.description %}
+                <p class="book-info__description">{{ book.description }}</p>
+            {% endif %}
+
+            <ul class="information__list">
+                {% for key in book.product_information %}
+                    <li class="information__item">
+                        <span class="information__key">{{ key }}:</span> {{ book.product_information[key] }}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </article>
+{% endblock %}

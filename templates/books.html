@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% set category_name = category.split("_")[0].replace("_", "") if category else "Books" %}
+
+{% block title %}{{ category_name }}{% endblock %}
+
+{% block head %}
+    <script type="module" src="{{ url_for("static", path="/js/books.js") }}"></script>
+{% endblock %}
+
+{% block content %}
+    <h1 class="title">{{ category_name }}</h1>
+
+    <article aria-label="Books page {{ current_page }}">
+        <ul class="books" id="books">
+            {% for book in books %}
+                <li>
+                    <article class="book" data-url="/book/{{ book.slug }}">
+                        <img class="book__thumbnail" src="{{ book.thumbnail }}" alt="{{ book.title }}"/>
+
+                        <div class="book__content">
+                            <h2 class="book__title">
+                                <a href="/book/{{ book.slug }}" aria-label="{{ book.title }}">
+                                    {% if book.title|length > 40 %}
+                                        {{ book.title[:40] }}...
+                                    {% else %}
+                                        {{ book.title }}
+                                    {% endif %}
+                                </a>
+                            </h2>
+
+                            <div class="book__details">
+                                <p class="book__price">{{ book.price }}</p>
+
+                                {% if book.in_stock %}
+                                    <p class="stock">
+                                        In stock
+                                    </p>
+                                {% endif %}
+                            </div>
+
+                            <p class="rating" aria-label="{{ book.starts }} stars">
+                                {% for i in range(5) %}
+                                    <img class="rating__star"
+                                         src="{{ url_for("static", path="/assets/icons/star.svg") }}" alt="Star"
+                                         loading="lazy"/>
+                                {% endfor %}
+                            </p>
+                        </div>
+                    </article>
+                </li>
+            {% endfor %}
+        </ul>
+
+        {% if number_pages %}
+            <nav>
+                {% set base_path =  ("/" + category if category else "") + "/page/" %}
+                <ul class="pagination">
+                    <li class="pagination__item" aria-hidden="{{ current_page < 1 }}">
+                        {% if current_page > 1 %}
+                            <a href="{{ base_path }}{{ current_page - 1 }}">
+                                <img class="pagination__image" src="{{ url_for("static", path="/assets/icons/chevron-left.svg") }}"
+                                     alt="Previous Page"/>
+                            </a>
+                        {% else %}
+                            <img class="pagination__image" src="{{ url_for("static", path="/assets/icons/chevron-left.svg") }}"
+                                 alt="Previous Page"/>
+                        {% endif %}
+                    </li>
+
+                    {% for i in range(current_page - 4 if current_page - 4 > 0  else 1, current_page + 5 if current_page + 4 < number_pages else number_pages + 1) %}
+                        <li class="pagination__item">
+                            <a aria-label="Go to page {{ i }}" href="{{ base_path }}{{ i }}">{{ i }}</a>
+                        </li>
+                    {% endfor %}
+                    <li class="pagination__item" aria-hidden="{{ current_page < 1 }}">
+                        {% if current_page < number_pages %}
+                            <a href="{{ base_path }}{{ current_page + 1 }}">
+                                <img class="pagination__image" src="{{ url_for("static", path="/assets/icons/chevron-right.svg") }}"
+                                     alt="Next Page"/>
+                            </a>
+                        {% else %}
+                            <img class="pagination__image" src="{{ url_for("static", path="/assets/icons/chevron-right.svg") }}"
+                                 alt="Next Page"/>
+                        {% endif %}
+                    </li>
+                </ul>
+            </nav>
+            <p class="page">Page {{ current_page }} of {{ number_pages }}</p>
+        {% endif %}
+    </article>
+{% endblock %}
